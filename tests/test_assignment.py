@@ -10,7 +10,6 @@ Eight test cases, one mark each (grading.yml: max_auto: 8).
 import math
 
 import pytest
-
 from starter import (
     choose_threshold,
     confusion_counts,
@@ -23,10 +22,30 @@ from starter import (
 
 # The same 24 applications the notebook uses.
 X = [
-    [1.2, -0.4], [0.3, 0.9], [-0.8, 1.6], [2.1, -1.1], [-1.4, 0.2], [0.7, 0.5],
-    [-0.2, -0.9], [1.8, 0.3], [-1.1, 1.2], [0.9, -1.4], [-0.5, 0.7], [1.5, 1.1],
-    [-1.7, -0.3], [0.4, 1.8], [1.1, -0.7], [-0.9, -1.2], [2.3, 0.6], [-0.3, 1.4],
-    [0.6, -0.2], [-1.2, 0.9], [1.4, -1.6], [-0.7, 0.4], [0.2, 1.3], [1.9, -0.9],
+    [1.2, -0.4],
+    [0.3, 0.9],
+    [-0.8, 1.6],
+    [2.1, -1.1],
+    [-1.4, 0.2],
+    [0.7, 0.5],
+    [-0.2, -0.9],
+    [1.8, 0.3],
+    [-1.1, 1.2],
+    [0.9, -1.4],
+    [-0.5, 0.7],
+    [1.5, 1.1],
+    [-1.7, -0.3],
+    [0.4, 1.8],
+    [1.1, -0.7],
+    [-0.9, -1.2],
+    [2.3, 0.6],
+    [-0.3, 1.4],
+    [0.6, -0.2],
+    [-1.2, 0.9],
+    [1.4, -1.6],
+    [-0.7, 0.4],
+    [0.2, 1.3],
+    [1.9, -0.9],
 ]
 Y = [0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0]
 
@@ -51,7 +70,7 @@ def test_log_loss_punishes_confident_errors():
     uncertain = log_loss([1], [0.45])
     wrong = log_loss([1], [0.01])
     assert wrong > 3 * uncertain
-    assert math.isfinite(log_loss([1, 0], [0.0, 1.0]))   # clipping, not log(0)
+    assert math.isfinite(log_loss([1, 0], [0.0, 1.0]))  # clipping, not log(0)
 
 
 def test_predict_proba_uses_intercept_first():
@@ -87,7 +106,9 @@ def test_confusion_and_metrics():
     assert (precision, recall, f1) == pytest.approx((2 / 3, 2 / 3, 2 / 3), abs=1e-9)
 
     # Flagging nothing must give zeros, not a ZeroDivisionError.
-    assert precision_recall_f1([1, 0], [0, 0]) == pytest.approx((0.0, 0.0, 0.0), abs=1e-12)
+    assert precision_recall_f1([1, 0], [0, 0]) == pytest.approx(
+        (0.0, 0.0, 0.0), abs=1e-12
+    )
 
 
 def test_choose_threshold_follows_the_costs():
